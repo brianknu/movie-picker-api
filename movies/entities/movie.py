@@ -1,7 +1,4 @@
 class Movie:
-    def __init__(self, link, description):
-        self.link = link
+    def __init__(self, trailer, description):
+        self.trailer = trailer
         self.description = description
-
-    def print_movie(self):
-        return f"Link: {self.link} Description: {self.description}."
