@@ -1,6 +1,9 @@
+import os
 from flask import Flask
 from flask import jsonify
 from entities.movie import Movie
+from utils.database import get_db_client
+from dotenv import load_dotenv
 
 
 def create_app():
@@ -8,6 +11,9 @@ def create_app():
     return flask_app
 
 
+load_dotenv()
+db = get_db_client()
+recommendation_collection_db = db.get_collection(os.getenv('COLLECTION_NAME'))
 app = create_app()
 
 

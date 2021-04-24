@@ -1,0 +1,8 @@
+# Deploy
+
+## .env structure
+MONGO_CONNECTION_STRING=
+
+DATABASE_NAME=
+
+COLLECTION_NAME=
