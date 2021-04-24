@@ -1,10 +1,10 @@
-from flask import Flask
-from flask import jsonify
+from flask import Flask, request, jsonify
 from dotenv import load_dotenv
-from movies.repositories.recommendations_repository import get_all_movies, get_random_movie
+from movies.repositories.recommendations_repository import get_all_movies, get_random_movie, insert_recommendation
 from movies.utils.database import get_db_client
 from movies.utils.json_encoders import RecommendationEncoder
 import os
+import json
 
 
 def create_app():
@@ -32,6 +32,13 @@ def get_random_recommendations():
     random_movie = get_random_movie(db_cl)
     app.json_encoder = RecommendationEncoder
     return jsonify(random_movie)
+
+
+@app.route('/api/movies/add', methods=['POST'])
+def add_recommendations():
+    request_data = json.loads(request.data.decode('utf8'))
+    inserted_object_id = insert_recommendation(db_cl, request_data)
+    return jsonify({"inserted object id:": inserted_object_id})
 
 
 if __name__ == '__main__':

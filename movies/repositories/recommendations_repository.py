@@ -21,3 +21,15 @@ def get_random_movie(db_cl):
     movie = Movie(random_movie.get('trailer'), random_movie.get('description'))
     user = User(random_movie.get('user'))
     return Recommendation(movie, user)
+
+
+def insert_recommendation(db_cl, request_data):
+    recommendation = Recommendation(Movie(request_data.get('trailer'), request_data.get('description')),
+                                    User(request_data.get('user')))
+    dic = {
+        "user": recommendation.user.name,
+        "description": recommendation.movie.description,
+        "trailer": recommendation.movie.trailer
+    }
+
+    return db_cl.insert_one(dic)
