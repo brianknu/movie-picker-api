@@ -1,8 +1,8 @@
 # Deploy
 
 ## .env structure
-MONGO_CONNECTION_STRING=
+MONGO_CONNECTION_STRING=mongodb://user:password@ip:port/pizzabot
 
-DATABASE_NAME=
+DATABASE_NAME=pizzabot
 
-COLLECTION_NAME=
+COLLECTION_NAME=recommendations
