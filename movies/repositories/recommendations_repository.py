@@ -39,3 +39,10 @@ def insert_recommendation(db_cl, request_data):
 def delete_recommendation(db_cl, movie_id):
     result = db_cl.delete_one({'_id': ObjectId(movie_id)})
     return result.deleted_count
+
+
+def get_recommendation_by_id(db_cl, recommendation_id):
+    recommendation = db_cl.find_one({'_id': ObjectId(recommendation_id)})
+    movie = Movie(recommendation['trailer'], recommendation['description'])
+    user = User(recommendation['user'])
+    return Recommendation(movie, user, recommendation_id)

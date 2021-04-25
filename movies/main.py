@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from dotenv import load_dotenv
 from movies.repositories.recommendations_repository import get_all_movies, get_random_movie, insert_recommendation, \
-    delete_recommendation
+    delete_recommendation, get_recommendation_by_id
 from movies.utils.database import get_db_client
 from movies.utils.json_encoders import RecommendationEncoder
 import os
@@ -21,31 +21,38 @@ app = create_app()
 
 
 # Router
-@app.route('/api/movies/all', methods=['GET'])
-def get_all_recommendations():
+@app.route('/recommendations', methods=['GET'])
+def get_all_recommendations_endpoint():
     all_rc = get_all_movies(db_cl)
     app.json_encoder = RecommendationEncoder
     return jsonify(all_rc)
 
 
-@app.route('/api/movies/random', methods=['GET'])
-def get_random_recommendations():
+@app.route('/recommendations/random', methods=['GET'])
+def get_random_recommendations_endpoint():
     random_movie = get_random_movie(db_cl)
     app.json_encoder = RecommendationEncoder
     return jsonify(random_movie)
 
 
-@app.route('/api/movies/add', methods=['POST'])
-def add_recommendations():
+@app.route('/recommendations', methods=['POST'])
+def add_recommendations_endpoint():
     request_data = json.loads(request.data.decode('utf8'))
     insert_recommendation(db_cl, request_data)
     return jsonify({"Message": "ok"})
 
 
-@app.route('/api/movies/delete/<movie_id>', methods=['DELETE'])
+@app.route('/recommendations/<movie_id>', methods=['DELETE'])
 def delete_recommendations(movie_id):
     deleted_count = delete_recommendation(db_cl, movie_id)
     return jsonify({"Deleted count": str(deleted_count)})
+
+
+@app.route('/recommendations/<movie_id>', methods=['GET'])
+def get_recommendation_by_id_endpoint(movie_id):
+    rc = get_recommendation_by_id(db_cl, movie_id)
+    app.json_encoder = RecommendationEncoder
+    return jsonify(rc)
 
 
 if __name__ == '__main__':
