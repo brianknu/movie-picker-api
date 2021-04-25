@@ -1,31 +1,29 @@
 from movies.entities.recommendation import Recommendation
 from movies.entities.movie import Movie
 from movies.entities.user import User
-from random import randrange
 
 
 def get_all_movies(db_cl):
     all_recommendations_from_db = db_cl.find({})
     r_list = []
     for item in all_recommendations_from_db:
-        movie = Movie(item.get('trailer'), item.get('description'))
-        user = User(item.get('user'))
+        movie = Movie(item['trailer'], item['description'])
+        user = User(item['user'])
         r_list.append(Recommendation(movie, user))
     return r_list
 
 
 def get_random_movie(db_cl):
-    count = db_cl.count_documents({})
-    random_index = (randrange(count))
-    random_movie = db_cl.find().limit(-1).skip(random_index).next()
-    movie = Movie(random_movie.get('trailer'), random_movie.get('description'))
-    user = User(random_movie.get('user'))
+    random_movie_cursor = db_cl.aggregate([{'$sample': {'size': 1}}])
+    random_movie = next(random_movie_cursor)
+    movie = Movie(random_movie['trailer'], random_movie['description'])
+    user = User(random_movie['user'])
     return Recommendation(movie, user)
 
 
 def insert_recommendation(db_cl, request_data):
-    recommendation = Recommendation(Movie(request_data.get('trailer'), request_data.get('description')),
-                                    User(request_data.get('user')))
+    recommendation = Recommendation(Movie(request_data['trailer'], request_data['description']),
+                                    User(request_data['user']))
     dic = {
         "user": recommendation.user.name,
         "description": recommendation.movie.description,
