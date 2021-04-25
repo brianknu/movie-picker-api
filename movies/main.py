@@ -37,8 +37,8 @@ def get_random_recommendations():
 @app.route('/api/movies/add', methods=['POST'])
 def add_recommendations():
     request_data = json.loads(request.data.decode('utf8'))
-    inserted_object_id = insert_recommendation(db_cl, request_data)
-    return jsonify({"inserted object id:": inserted_object_id})
+    insert_recommendation(db_cl, request_data)
+    return jsonify({"Message": "ok"})
 
 
 if __name__ == '__main__':
