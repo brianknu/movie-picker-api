@@ -1,3 +1,4 @@
+from bson import ObjectId
 from movies.entities.recommendation import Recommendation
 from movies.entities.movie import Movie
 from movies.entities.user import User
@@ -33,3 +34,8 @@ def insert_recommendation(db_cl, request_data):
     }
 
     return db_cl.insert_one(dic)
+
+
+def delete_recommendation(db_cl, movie_id):
+    result = db_cl.delete_one({'_id': ObjectId(movie_id)})
+    return result.deleted_count

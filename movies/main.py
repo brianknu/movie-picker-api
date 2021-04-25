@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from dotenv import load_dotenv
-from movies.repositories.recommendations_repository import get_all_movies, get_random_movie, insert_recommendation
+from movies.repositories.recommendations_repository import get_all_movies, get_random_movie, insert_recommendation, \
+    delete_recommendation
 from movies.utils.database import get_db_client
 from movies.utils.json_encoders import RecommendationEncoder
 import os
@@ -39,6 +40,12 @@ def add_recommendations():
     request_data = json.loads(request.data.decode('utf8'))
     insert_recommendation(db_cl, request_data)
     return jsonify({"Message": "ok"})
+
+
+@app.route('/api/movies/delete/<movie_id>', methods=['DELETE'])
+def delete_recommendations(movie_id):
+    deleted_count = delete_recommendation(db_cl, movie_id)
+    return jsonify({"Deleted count": str(deleted_count)})
 
 
 if __name__ == '__main__':
