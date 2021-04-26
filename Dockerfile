@@ -7,7 +7,6 @@ RUN pip3 install -r requirements.txt
 
 COPY . .
 
-WORKDIR /app/movies
 ENV PYTHONPATH /app
 
-CMD [ "python3", "main.py" ]
+CMD [ "python3", "./movies/main.py" ]
