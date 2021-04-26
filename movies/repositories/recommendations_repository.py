@@ -1,7 +1,7 @@
 from bson import ObjectId
-from movies.entities.recommendation import Recommendation
-from movies.entities.movie import Movie
-from movies.entities.user import User
+from ..entities.recommendation import Recommendation
+from ..entities.movie import Movie
+from ..entities.user import User
 
 
 def get_all_movies(db_cl):
