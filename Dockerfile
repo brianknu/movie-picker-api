@@ -1,4 +1,4 @@
-FROM python:3.8-slim-buster
+FROM python:3.9.4-alpine
 
 WORKDIR /app
 
@@ -7,4 +7,7 @@ RUN pip3 install -r requirements.txt
 
 COPY . .
 
-CMD [ "python3", "-m" , "./movies/main.py", "run", "--host=0.0.0.0"]
+WORKDIR /app/movies
+ENV PYTHONPATH /app/movies
+
+CMD [ "python3", "main.py" ]
