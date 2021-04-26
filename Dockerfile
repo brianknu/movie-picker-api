@@ -9,4 +9,4 @@ COPY . .
 
 ENV PYTHONPATH /app
 
-CMD [ "python3", "-m", "./movies/main.py", "run", "--host=0.0.0.0"]
+CMD [ "python3", "./movies/main.py"]
