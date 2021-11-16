@@ -6,10 +6,10 @@ services:
     ports:
       - 5000:5000
     networks:
-      - pizzabot
+      - mongo
     restart: unless-stopped
 
 networks:
   pizzabot:
     external:
-      name: docker_pizzabot
+      name: mongo
