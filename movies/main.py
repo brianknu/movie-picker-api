@@ -55,5 +55,9 @@ def get_recommendation_by_id_endpoint(movie_id):
     return jsonify(rc)
 
 
-if __name__ == '__main__':
+def main():
     app.run(host=os.getenv('APP_HOST'), port=os.getenv('APP_PORT'), debug=os.getenv('APP_DEBUG').lower() == 'true')
+
+
+if __name__ == '__main__':
+    main()
